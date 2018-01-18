@@ -17,27 +17,25 @@ package org.rastermann.compilerworks;
 
 public class HelloWorld {
 
-    public static void main(String[] args)
-    {
-        boolean b = true;
-        if( b = false ) {
-            System.out.println("lala");
-        }
+    public static long factorial(long n) {
+       if (n == 0) {
+          return 0;
+       }
 
-        // Prints "Hello, World" to the terminal window.
-        System.out.println("Hello, World");                        
+       if (n < 0 || n > 20) {
+          throw new IllegalArgumentException();
+       }
+
+       long ret = 1;
+       for (int i = 2; i <= n; i++) {
+          ret *= i;
+       }
+       return ret;
+    }
+
+    public static void main(String[] args) {
+        long n = factorial(8);
+        System.out.format("factorial: %lu\n", n);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
