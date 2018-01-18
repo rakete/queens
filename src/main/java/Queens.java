@@ -15,7 +15,7 @@
  */
 package org.rastermann.compilerworks;
 
-public class HelloWorld {
+public class Queens {
 
     public static long factorial(long n) {
        if (n == 0) {
@@ -35,7 +35,7 @@ public class HelloWorld {
 
     public static void main(String[] args) {
         long n = factorial(8);
-        System.out.format("factorial: %lu\n", n);
+        System.out.format("factorial: %d\n", n);
     }
 
 }
