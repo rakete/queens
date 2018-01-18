@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.anarres.gradle:gradle-stdproject-plugin:1.0.4'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.anarres.stdproject'
+apply plugin: 'org.anarres.stdmodule'
+
+//stdproject {
+//}
+//group = 'org.rastermann.compilerworks'
+//stdmodule {
+//	description "This is the description of my project."
+//	author id: 'me', name: 'My Name', email: 'my@email.com'
+//	author id: 'you', name: 'Your Name', email: 'you@email.com'
+//	license 'Apache-2.0'
+//}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.rastermann.compilerworks.HelloWorld'
+    }
+}
+
+// Checkstyle
+apply plugin: 'checkstyle'
+checkstyle {
+    ignoreFailures = true
+    configFile = rootProject.file('codequality/checkstyle.xml')
+}
