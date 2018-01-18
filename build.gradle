@@ -14,13 +14,13 @@ apply plugin: 'org.anarres.stdmodule'
 
 //stdproject {
 //}
-//group = 'org.rastermann.compilerworks'
-//stdmodule {
-//	description "This is the description of my project."
-//	author id: 'me', name: 'My Name', email: 'my@email.com'
-//	author id: 'you', name: 'Your Name', email: 'you@email.com'
-//	license 'Apache-2.0'
-//}
+
+group = 'org.rastermann.compilerworks'
+stdmodule {
+	description "A solution to the 8 queens puzzle in java."
+	author id: 'me', name: 'Andreas Raster', email: 'lazor@affenbande.org'
+	license 'Apache-2.0'
+}
 
 jar {
     manifest {
