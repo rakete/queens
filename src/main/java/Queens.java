@@ -22,6 +22,10 @@ public class Queens {
     private int[] queens;
 
     public Queens(int n) {
+        if (n < 2) {
+            throw new IllegalArgumentException();
+        }
+
         queens = new int[n];
         for( int i = 0; i < n; i++ ) {
             queens[i] = 1 << i;

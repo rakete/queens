@@ -25,6 +25,27 @@ import java.util.Arrays;
 
 public class TestQueens {
 
+    @Test public void inputTest() {
+        try {
+            Queens q = new Queens(-1);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+
+        try {
+            Queens q = new Queens(0);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+
+        try {
+            Queens q = new Queens(1);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+    }
+
+
     @Test public void countingTest() {
         Queens q = new Queens(8);
         List<Integer[]> solutions = q.all_solutions();
