@@ -43,4 +43,4 @@ checkstyle {
 }
 
 apply plugin: 'application'
-mainClassName = "org.rastermann.compilerworks.Queens"
+mainClassName = "org.rastermann.compilerworks.Main"
