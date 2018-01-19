@@ -15,27 +15,66 @@
  */
 package org.rastermann.compilerworks;
 
+import org.rastermann.compilerworks.Permutations;
+
 public class Queens {
+    int queens[];
 
-    public static long factorial(long n) {
-       if (n == 0) {
-          return 0;
-       }
+    public Queens(int n) {
+        queens = new int[n];
+        for( int i = 0; i < n; i++ ) {
+            queens[i] = 1 << i;
+        }
+    }
 
-       if (n < 0 || n > 20) {
-          throw new IllegalArgumentException();
-       }
+    public void print(Integer[] config) {
+        for( int i = 0; i < config.length; i++ ) {
+            for( int j = 0; j < config.length; j++ ) {
+                if( queens[config[i]] == 1 << j ) {
+                    System.out.format(" 1");
+                } else {
+                    System.out.format(" 0");
+                }
+            }
+            System.out.format("\n");
+        }
+        System.out.format("\n");
+    }
 
-       long ret = 1;
-       for (int i = 2; i <= n; i++) {
-          ret *= i;
-       }
-       return ret;
+    public boolean test(Integer[] config) {
+        for( int i = 0; i < config.length-1; i++ ) {
+            for( int k = i+1; k < config.length; k++ ) {
+                int a = queens[config[i]];
+                int b = queens[config[k]];
+                int d = k - i;
+
+                if( b == (a >> d) || b == (a << d) ) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
-        long n = factorial(8);
-        System.out.format("factorial: %d\n", n);
-    }
+        Integer config[] = {0, 1, 2, 3};
 
+        Permutations p = new Permutations(config);
+        System.out.format("num_permutations: %d\n", p.num_permutations);
+
+        Queens q = new Queens(4);
+        Integer foo[] = {2,0,3,1};
+        Integer bar[] = {0,1,2,3};
+        Integer baz[] = {2,0,1,3};
+
+        if( q.test(foo) ) {
+            q.print(foo);
+        }
+
+        Queens q2 = new Queens(8);
+        Integer solution[] = {2,4,1,7,0,6,3,5};
+        if( q2.test(solution) ) {
+            q2.print(solution);
+        }
+    }
 }

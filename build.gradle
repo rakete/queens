@@ -41,3 +41,6 @@ checkstyle {
     ignoreFailures = true
     configFile = rootProject.file('codequality/checkstyle.xml')
 }
+
+apply plugin: 'application'
+mainClassName = "org.rastermann.compilerworks.Queens"
