@@ -47,9 +47,33 @@ public class TestQueens {
 
 
     @Test public void countingTest() {
-        Queens q = new Queens(8);
+        Queens q = new Queens(4);
         List<Integer[]> solutions = q.allSolutions();
+        assertEquals(solutions.size(), 2);
+
+        q = new Queens(5);
+        solutions = q.allSolutions();
+        assertEquals(solutions.size(), 10);
+
+        q = new Queens(6);
+        solutions = q.allSolutions();
+        assertEquals(solutions.size(), 4);
+
+        q = new Queens(7);
+        solutions = q.allSolutions();
+        assertEquals(solutions.size(), 40);
+
+        q = new Queens(8);
+        solutions = q.allSolutions();
         assertEquals(solutions.size(), 92);
+
+        q = new Queens(9);
+        solutions = q.allSolutions();
+        assertEquals(solutions.size(), 352);
+
+        q = new Queens(10);
+        solutions = q.allSolutions();
+        assertEquals(solutions.size(), 724);
     }
 
     @Test public void distinctSolutionsTest() {
