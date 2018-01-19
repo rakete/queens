@@ -21,6 +21,7 @@ compileTestJava {
 apply plugin: 'org.anarres.stdproject'
 apply plugin: 'org.anarres.stdmodule'
 
+animalsniffer.skip = true
 group = 'org.rastermann.compilerworks'
 stdmodule {
     description "A solution to the 8 queens puzzle in java."
