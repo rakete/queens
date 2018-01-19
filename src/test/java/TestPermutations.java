@@ -1,9 +1,23 @@
+/**
+ * Copyright 2018 Andreas Raster
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.rastermann.compilerworks;
 
 import static org.junit.Assert.*;
 import org.junit.*;
 
-import org.rastermann.compilerworks.Permutations;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import java.util.HashMap;
@@ -12,13 +26,21 @@ import java.util.Arrays;
 
 public class TestPermutations {
 
-    @Test public void factorialTest() {
+    @Test public void inputTest() {
         try {
             Permutations.factorial(-1);
             fail("Exception not thrown");
         } catch(IllegalArgumentException e) {
         };
 
+        try {
+            Permutations wrong = new Permutations(-1);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+    }
+
+    @Test public void factorialTest() {
         assertEquals(Permutations.factorial(0), 0);
         assertEquals(Permutations.factorial(1), 1);
         assertEquals(Permutations.factorial(2), 2);
@@ -27,10 +49,10 @@ public class TestPermutations {
     }
 
     @Test public void permutationsTest() {
-        Integer config[] = {0, 1, 2, 3};
+        int n = 4;
 
-        Permutations p = new Permutations(config);
-        assertEquals(p.num_permutations, Permutations.factorial(config.length));
+        Permutations p = new Permutations(n);
+        assertEquals(p.num_permutations, Permutations.factorial(n));
 
         AtomicInteger permutation_counter = new AtomicInteger(0);
         assertEquals(p.permute(0, c -> {permutation_counter.getAndIncrement(); return true;}), true);
@@ -52,20 +74,6 @@ public class TestPermutations {
 
         p.permute(0, c -> {return true;});
         p.permute(0, c -> {return true;});
-        assertEquals(p.num_permutations, Permutations.factorial(config.length));
-
-        Integer wrong1[] = {-1, 0, 1, 2};
-        try {
-            Permutations pwrong1 = new Permutations(wrong1);
-            fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
-        };
-
-        Integer wrong2[] = {0, 0, 1, 2};
-        try {
-            Permutations pwrong2 = new Permutations(wrong2);
-            fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
-        };
+        assertEquals(p.num_permutations, Permutations.factorial(n));
     }
 }
