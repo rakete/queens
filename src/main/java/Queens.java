@@ -15,16 +15,15 @@
  */
 package org.rastermann.compilerworks;
 
-import org.rastermann.compilerworks.Permutations;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Queens {
-    int queens[];
+    private int[] queens;
 
-    public Queens(Integer[] config) {
-        queens = new int[config.length];
-        for( int i = 0; i < config.length; i++ ) {
+    public Queens(int n) {
+        queens = new int[n];
+        for( int i = 0; i < n; i++ ) {
             queens[i] = 1 << i;
         }
     }
@@ -61,22 +60,17 @@ public class Queens {
         return true;
     }
 
-    public static void main(String[] args) {
-        Integer config[] = {0, 1, 2, 3, 4, 5, 6, 7};
+    public List<Integer[]> all_solutions() {
+        Permutations p = new Permutations(queens.length);
 
-        Permutations p = new Permutations(config);
-        System.out.format("num_permutations: %d\n\n", p.num_permutations);
-
-        AtomicInteger num_solutions = new AtomicInteger(0);
-        Queens q = new Queens(config);
+        ArrayList<Integer[]> solutions = new ArrayList<Integer[]>();
         p.permute(0, c -> {
-                if( q.test(c) ) {
-                    q.print(c);
-                    num_solutions.getAndIncrement();
+                if( test(c) ) {
+                    solutions.add(c);
                 }
                 return true;
             });
-        System.out.format("num_solutions: %d\n", num_solutions.get());
 
+        return solutions;
     }
 }

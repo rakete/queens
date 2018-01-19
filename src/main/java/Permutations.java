@@ -9,19 +9,16 @@ public class Permutations {
     Integer permutation[];
     long num_permutations;
 
-    public Permutations(Integer a[]) {
-        Map<Integer, Boolean> uniquetest = new HashMap<Integer, Boolean>();
-        for( int i = 0; i < a.length; i++ ) {
-            if( a[i] < 0 ) {
-                throw new IllegalArgumentException();
-            }
-
-            if( uniquetest.get(a[i]) == null ) {
-                uniquetest.put(a[i], true);
-            } else {
-                throw new IllegalArgumentException();
-            }
+    public Permutations(int n) {
+        if( n < 0 ) {
+            throw new IllegalArgumentException();
         }
+
+        Integer a[] = new Integer[n];
+        for( int i = 0; i < n; i++ ) {
+            a[i] = i;
+        }
+
         permutation = a;
         num_permutations = factorial(a.length);
     }
