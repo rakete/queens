@@ -9,6 +9,15 @@ buildscript {
 }
 
 apply plugin: 'java'
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+compileTestJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
 apply plugin: 'org.anarres.stdproject'
 apply plugin: 'org.anarres.stdmodule'
 
