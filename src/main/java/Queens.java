@@ -17,17 +17,22 @@ package org.rastermann.compilerworks;
 
 import org.rastermann.compilerworks.Permutations;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Queens {
     int queens[];
 
-    public Queens(int n) {
-        queens = new int[n];
-        for( int i = 0; i < n; i++ ) {
+    public Queens(Integer[] config) {
+        queens = new int[config.length];
+        for( int i = 0; i < config.length; i++ ) {
             queens[i] = 1 << i;
         }
     }
 
     public void print(Integer[] config) {
+        System.out.format("Solution: ");
+        Permutations.print(config);
+
         for( int i = 0; i < config.length; i++ ) {
             for( int j = 0; j < config.length; j++ ) {
                 if( queens[config[i]] == 1 << j ) {
@@ -57,24 +62,21 @@ public class Queens {
     }
 
     public static void main(String[] args) {
-        Integer config[] = {0, 1, 2, 3};
+        Integer config[] = {0, 1, 2, 3, 4, 5, 6, 7};
 
         Permutations p = new Permutations(config);
-        System.out.format("num_permutations: %d\n", p.num_permutations);
+        System.out.format("num_permutations: %d\n\n", p.num_permutations);
 
-        Queens q = new Queens(4);
-        Integer foo[] = {2,0,3,1};
-        Integer bar[] = {0,1,2,3};
-        Integer baz[] = {2,0,1,3};
+        AtomicInteger num_solutions = new AtomicInteger(0);
+        Queens q = new Queens(config);
+        p.permute(0, c -> {
+                if( q.test(c) ) {
+                    q.print(c);
+                    num_solutions.getAndIncrement();
+                }
+                return true;
+            });
+        System.out.format("num_solutions: %d\n", num_solutions.get());
 
-        if( q.test(foo) ) {
-            q.print(foo);
-        }
-
-        Queens q2 = new Queens(8);
-        Integer solution[] = {2,4,1,7,0,6,3,5};
-        if( q2.test(solution) ) {
-            q2.print(solution);
-        }
     }
 }
