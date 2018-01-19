@@ -15,27 +15,27 @@
  */
 package org.rastermann.compilerworks;
 
-import org.rastermann.compilerworks.Permutations;
-import org.rastermann.compilerworks.Queens;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
+    private Main() {
+    }
     public static void main(String[] args) {
         int n = 8;
 
         Permutations p = new Permutations(n);
-        System.out.format("num_permutations: %d\n\n", p.num_permutations);
+        System.out.format("numPermutations: %d\n\n", p.numPermutations);
 
-        AtomicInteger num_solutions = new AtomicInteger(0);
+        AtomicInteger numSolutions = new AtomicInteger(0);
         Queens q = new Queens(n);
         p.permute(0, c -> {
-                if( q.test(c) ) {
+                if (q.test(c)) {
                     q.print(c);
-                    num_solutions.getAndIncrement();
+                    numSolutions.getAndIncrement();
                 }
                 return true;
             });
-        System.out.format("num_solutions: %d\n", num_solutions.get());
+
+        System.out.format("numSolutions: %d\n", numSolutions.get());
     }
 }

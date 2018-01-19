@@ -48,7 +48,7 @@ public class TestQueens {
 
     @Test public void countingTest() {
         Queens q = new Queens(8);
-        List<Integer[]> solutions = q.all_solutions();
+        List<Integer[]> solutions = q.allSolutions();
         assertEquals(solutions.size(), 92);
     }
 

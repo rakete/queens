@@ -17,30 +17,27 @@ package org.rastermann.compilerworks;
 
 import java.util.function.Function;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Permutations {
-    Integer permutation[];
-    long num_permutations;
+    private Integer[] permutation;
+    public long numPermutations;
 
     public Permutations(int n) {
-        if( n < 0 ) {
+        if (n < 1) {
             throw new IllegalArgumentException();
         }
 
-        Integer a[] = new Integer[n];
-        for( int i = 0; i < n; i++ ) {
+        Integer[] a = new Integer[n];
+        for (int i = 0; i < n; i++) {
             a[i] = i;
         }
 
         permutation = a;
-        num_permutations = factorial(a.length);
+        numPermutations = factorial(a.length);
     }
 
     public static boolean print(Integer[] permutation) {
         System.out.format("[");
-        for( int i = 0; i < permutation.length; i++ ) {
+        for (int i = 0; i < permutation.length; i++) {
             System.out.format(" %d", permutation[i]);
         }
         System.out.format(" ]\n");
@@ -65,26 +62,25 @@ public class Permutations {
     }
 
     public boolean permute(int i, Function<Integer[], Boolean> f) {
-        if( i >= permutation.length - 1 ) {
+        if (i >= permutation.length - 1) {
             return f.apply(permutation);
         }
 
         for (int j = i; j < permutation.length; j++) {
-
             assert j >= i;
-            if( j > i ) {
+            if (j > i) {
                 int tmp = permutation[i];
                 permutation[i] = permutation[j];
                 permutation[j] = tmp;
 
-                if( ! permute(i+1, f) ) {
+                if (!permute(i + 1, f)) {
                     return false;
                 }
 
                 tmp = permutation[i];
                 permutation[i] = permutation[j];
                 permutation[j] = tmp;
-            } else if( ! permute(i+1, f) ) {
+            } else if (!permute(i + 1, f)) {
                 return false;
             }
         }

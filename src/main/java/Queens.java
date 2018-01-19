@@ -27,7 +27,7 @@ public class Queens {
         }
 
         queens = new int[n];
-        for( int i = 0; i < n; i++ ) {
+        for (int i = 0; i < n; i++) {
             queens[i] = 1 << i;
         }
     }
@@ -36,9 +36,9 @@ public class Queens {
         System.out.format("Solution: ");
         Permutations.print(config);
 
-        for( int i = 0; i < config.length; i++ ) {
-            for( int j = 0; j < config.length; j++ ) {
-                if( queens[config[i]] == 1 << j ) {
+        for (int i = 0; i < config.length; i++) {
+            for (int j = 0; j < config.length; j++) {
+                if (queens[config[i]] == 1 << j) {
                     System.out.format(" 1");
                 } else {
                     System.out.format(" 0");
@@ -50,13 +50,13 @@ public class Queens {
     }
 
     public boolean test(Integer[] config) {
-        for( int i = 0; i < config.length-1; i++ ) {
-            for( int k = i+1; k < config.length; k++ ) {
+        for (int i = 0; i < config.length - 1; i++) {
+            for (int k = i + 1; k < config.length; k++) {
                 int a = queens[config[i]];
                 int b = queens[config[k]];
                 int d = k - i;
 
-                if( b == (a >> d) || b == (a << d) ) {
+                if (b == (a >> d) || b == (a << d)) {
                     return false;
                 }
             }
@@ -64,12 +64,12 @@ public class Queens {
         return true;
     }
 
-    public List<Integer[]> all_solutions() {
+    public List<Integer[]> allSolutions() {
         Permutations p = new Permutations(queens.length);
 
         ArrayList<Integer[]> solutions = new ArrayList<Integer[]>();
         p.permute(0, c -> {
-                if( test(c) ) {
+                if (test(c)) {
                     solutions.add(c);
                 }
                 return true;

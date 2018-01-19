@@ -52,11 +52,11 @@ public class TestPermutations {
         int n = 4;
 
         Permutations p = new Permutations(n);
-        assertEquals(p.num_permutations, Permutations.factorial(n));
+        assertEquals(p.numPermutations, Permutations.factorial(n));
 
         AtomicInteger permutation_counter = new AtomicInteger(0);
         assertEquals(p.permute(0, c -> {permutation_counter.getAndIncrement(); return true;}), true);
-        assertEquals(permutation_counter.get(), p.num_permutations);
+        assertEquals(permutation_counter.get(), p.numPermutations);
 
         Map<String, Boolean> collection = new HashMap<String, Boolean>();
         boolean all_unique = p.permute(0, c -> {
@@ -74,6 +74,6 @@ public class TestPermutations {
 
         p.permute(0, c -> {return true;});
         p.permute(0, c -> {return true;});
-        assertEquals(p.num_permutations, Permutations.factorial(n));
+        assertEquals(p.numPermutations, Permutations.factorial(n));
     }
 }
