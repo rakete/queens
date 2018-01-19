@@ -31,7 +31,7 @@ stdmodule {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'org.rastermann.compilerworks.Queens'
+        attributes 'Main-Class': 'org.rastermann.compilerworks.Main'
     }
 }
 
