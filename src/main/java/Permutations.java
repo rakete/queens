@@ -95,10 +95,10 @@ public class Permutations {
                     collect.accept(permutation);
                 }
             } else if (test.apply(permutation, i + 1)) {
-                // - if i + 1 is not the end of permutation, then we test.apply a partial permutation to see if we should
-                // continue recurring or abort early, notice the last argument to test.apply is first permutation.length,
-                // meaning it tests the whole permutation, and second it is i + 1, meaning it tests the permutation
-                // beginning from 0 up until index i + 1
+                // - if i + 1 is not the end of permutation, then we test.apply a partial permutation to see if we
+                // should continue recurring or abort early, notice the last argument to test.apply is first
+                // permutation.length, meaning it tests the whole permutation, and second it is i + 1, meaning it
+                // tests the permutation beginning from 0 up until index i + 1
                 permute(i + 1, test, collect);
             }
 

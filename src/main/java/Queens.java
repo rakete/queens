@@ -96,7 +96,7 @@ public class Queens {
                 int ai = config[i];
                 int bj = config[j];
 
-                if( ai < 0 || bj < 0 || ai > queens.length || bj > queens.length ) {
+                if (ai < 0 || bj < 0 || ai > queens.length || bj > queens.length) {
                     throw new IllegalArgumentException();
                 }
 
