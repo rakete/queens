@@ -43,6 +43,22 @@ public class TestQueens {
             fail("Exception not thrown");
         } catch(IllegalArgumentException e) {
         };
+
+        try {
+            Queens q = new Queens(4);
+            Integer[] foo = new Integer[2];
+            q.test(foo, foo.length + 1);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+
+        try {
+            Queens q = new Queens(4);
+            Integer[] foo = new Integer[2];
+            q.test(foo, 4);
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
     }
 
 

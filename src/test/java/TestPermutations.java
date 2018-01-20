@@ -38,6 +38,21 @@ public class TestPermutations {
             fail("Exception not thrown");
         } catch(IllegalArgumentException e) {
         };
+
+        try {
+            Permutations p = new Permutations(4);
+            p.permute(-1, c -> {return;});
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
+
+        try {
+            int n = 4;
+            Permutations p = new Permutations(n);
+            p.permute(n + 1, c -> {return;});
+            fail("Exception not thrown");
+        } catch(IllegalArgumentException e) {
+        };
     }
 
     @Test public void factorialTest() {
