@@ -55,25 +55,17 @@ public class TestPermutations {
         assertEquals(p.numPermutations, Permutations.factorial(n));
 
         AtomicInteger permutation_counter = new AtomicInteger(0);
-        assertEquals(p.permute(0, c -> {permutation_counter.getAndIncrement(); return true;}), true);
+        p.permute(0, c -> {permutation_counter.getAndIncrement();});
         assertEquals(permutation_counter.get(), p.numPermutations);
 
         Map<String, Boolean> collection = new HashMap<String, Boolean>();
-        boolean all_unique = p.permute(0, c -> {
+        p.permute(0, c -> {
                 String s = Arrays.toString(c);
-                System.out.println(s);
-
-                if( collection.get(s) == null ) {
-                    collection.put(s, true);
-                    return true;
-                } else {
-                    return false;
-                }
+                assertEquals(collection.get(s), null);
             });
-        assertEquals(all_unique, true);
 
-        p.permute(0, c -> {return true;});
-        p.permute(0, c -> {return true;});
+        p.permute(0, c -> {return;});
+        p.permute(0, c -> {return;});
         assertEquals(p.numPermutations, Permutations.factorial(n));
     }
 }

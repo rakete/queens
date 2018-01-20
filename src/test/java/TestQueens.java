@@ -101,7 +101,6 @@ public class TestQueens {
                     assertEquals(my_solutions.get(s), null);
                     my_solutions.put(s, true);
                 }
-                return true;
             });
 
         for( int i = 0; i < distinct_solutions.length; i++ ) {
@@ -131,7 +130,6 @@ public class TestQueens {
                     assertEquals(my_solutions.get(s), null);
                     my_solutions.put(s, true);
                 }
-                return true;
             });
 
         for( int i = 0; i < wrong_solutions.length; i++ ) {

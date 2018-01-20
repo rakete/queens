@@ -15,7 +15,10 @@
  */
 package org.rastermann.compilerworks;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+
+import java.util.Arrays;
 
 public class Permutations {
     private Integer[] permutation;
@@ -26,23 +29,13 @@ public class Permutations {
             throw new IllegalArgumentException();
         }
 
-        Integer[] a = new Integer[n];
+        Integer[] initialPermutation = new Integer[n];
         for (int i = 0; i < n; i++) {
-            a[i] = i;
+            initialPermutation[i] = i;
         }
 
-        permutation = a;
-        numPermutations = factorial(a.length);
-    }
-
-    public static boolean print(Integer[] permutation) {
-        System.out.format("[");
-        for (int i = 0; i < permutation.length; i++) {
-            System.out.format(" %d", permutation[i]);
-        }
-        System.out.format(" ]\n");
-
-        return true;
+        permutation = initialPermutation;
+        numPermutations = factorial(initialPermutation.length);
     }
 
     public static long factorial(long n) {
@@ -63,55 +56,61 @@ public class Permutations {
         return ret;
     }
 
-    public boolean permute(int i, Function<Integer[], Boolean> f) {
-        if (i >= permutation.length - 1) {
-            return f.apply(permutation);
+
+    public static void print(Integer[] permutation) {
+        System.out.println(Arrays.toString(permutation));
+    }
+
+    public void permute(int i, BiFunction<Integer[], Integer, Boolean> test, Consumer<Integer[]> collect) {
+        if (i < 0 || i > permutation.length) {
+            throw new IllegalArgumentException();
         }
 
         // - found this method here:
         // https://stackoverflow.com/questions/30387185/print-out-all-permutations-of-an-array
-        // - I changed it a little, adding the if condition and an assert to make it more clear
-        // how this works
-        // - I also added a boolean return value to this function and the f argument so that the
-        // caller can abort permuting by returning false
         // - this is a mix between an iterative an recursive method, which makes it relativly easy
         // to understand, but still fast
-        // - on the first invocation with i = 0, the if above will do nothing, the for loop is started
-        // with j = i = 0, which then means j == i and the else condition below is followed. this continues
-        // until we reach the end of the permutation array, then the above if triggers and applies
-        // f to the current permutation array, which is at this point completly unchanged, therefore
-        // the first time f is called with just [0, 1, 2, ...., n] as input
-        // - we then return to the previous call, where the for loop runs once, increases j, so that now
-        // j > i and the main if body is triggered, where we swap two elements of the array, then call
-        // ourself recursively, again triggering the above if and applying f to permutation with the last
-        // two elements swapped
-        // - now again we return to the for loop that already ran increasing j to j > i, now it would
-        // increase once more, but that would make j >= permutation.length, which means instead we
-        // return true below, go the the previous call again (the second to last one), increase j,
-        // then swap two elements (the third to last with the second to last), and call ourself
-        // recursivly again
-        // - this continues until in the very first call, j ran from i = 0 to permutation.length, after
-        // which the first element was switched with every other element at least once, which means
-        // there are no more possible enumerations left, and we are done
+        // - this does permutations with a breadthfirst approach, meaning it first recursivly walks
+        // along the permutation array until it hits the end, then starts flipping elements while
+        // backtracking to the start, this is done until all possible swaps are exhausted
+        // - the recursive calls increase i, which indicates the 'fixed' element with which
+        // to swap, the for loop increases j, which indicates the element with which to swap
+        // the fixed element with: [0 1 2 3] -> i = 2, j = 3 -> [0 1 3 2]
+        int tmp = 0;
         for (int j = i; j < permutation.length; j++) {
-            assert j >= i;
+            // - the algorithm starts with j=i, and it has to so that we can backtrack to here
+            // again, but I check for i > j before swapping to avoid unecessary swaps
             if (j > i) {
-                int tmp = permutation[i];
-                permutation[i] = permutation[j];
-                permutation[j] = tmp;
-
-                if (!permute(i + 1, f)) {
-                    return false;
-                }
-
                 tmp = permutation[i];
                 permutation[i] = permutation[j];
                 permutation[j] = tmp;
-            } else if (!permute(i + 1, f)) {
-                return false;
+            }
+
+            // - this is the center piece of the algorithm where we decide if we collect a 'finished' permutation,
+            // or if we continue or stop recuring
+            if (i + 1 >= permutation.length - 1) {
+                // - a permutation is 'finished' when i + 1 is the last indexable position in the permutation array,
+                // then we test.apply to decide if the permutation should be collected with collect.accept
+                if (test.apply(permutation, permutation.length)) {
+                    collect.accept(permutation);
+                }
+            } else if (test.apply(permutation, i + 1)) {
+                // - if i + 1 is not the end of permutation, then we test.apply a partial permutation to see if we should
+                // continue recurring or abort early, notice the last argument to test.apply is first permutation.length,
+                // meaning it tests the whole permutation, and second it is i + 1, meaning it tests the permutation
+                // beginning from 0 up until index i + 1
+                permute(i + 1, test, collect);
+            }
+
+            if (j > i) {
+                tmp = permutation[i];
+                permutation[i] = permutation[j];
+                permutation[j] = tmp;
             }
         }
+    }
 
-        return true;
+    public void permute(int i, Consumer<Integer[]> collect) {
+        permute(i, (r, c) -> { return true; }, collect);
     }
 }

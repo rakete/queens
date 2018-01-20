@@ -17,25 +17,28 @@ package org.rastermann.compilerworks;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Main {
+public final class Main {
     private Main() {
     }
     public static void main(String[] args) {
         int n = 8;
 
-        Permutations p = new Permutations(n);
-        System.out.format("numPermutations: %d\n\n", p.numPermutations);
-
-        AtomicInteger numSolutions = new AtomicInteger(0);
         Queens q = new Queens(n);
-        p.permute(0, c -> {
-                if (q.test(c)) {
-                    q.print(c);
-                    numSolutions.getAndIncrement();
-                }
-                return true;
-            });
+        Permutations p = new Permutations(n);
+        System.out.format("numPermutation: %d\n", p.numPermutations);
 
+        AtomicInteger numTests = new AtomicInteger(0);
+        AtomicInteger numSolutions = new AtomicInteger(0);
+        p.permute(0,
+                  (c, r) -> {
+                      numTests.getAndIncrement();
+                      return q.test(c, r);
+                  },
+                  c -> {
+                      numSolutions.getAndIncrement();
+                      q.print(c);
+                  });
+        System.out.format("numTests: %d\n", numTests.get());
         System.out.format("numSolutions: %d\n", numSolutions.get());
     }
 }

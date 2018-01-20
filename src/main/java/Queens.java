@@ -49,7 +49,11 @@ public class Queens {
         System.out.format("\n");
     }
 
-    public boolean test(Integer[] config) {
+    public boolean test(Integer[] config, Integer end) {
+        if (end > config.length) {
+            throw new IllegalArgumentException();
+        }
+
         // - this is where the magic happens
         // - the queens are initialized as array of integers, where each integer has exactly one bit
         // set for a queen in a row, and all integers in the array are different, so something like
@@ -82,10 +86,20 @@ public class Queens {
         // anymore
         // - notice that j only goes forward, we do not need to test row combinations twice, so if
         // we tested the 0 vs 1, we do not need to test 1 vs 0 as well, by only increasing j from
-        // i to config.length, and not decreasing it as well, we only test the combinations the we
-        // have not tested yet
-        for (int i = 0; i < config.length - 1; i++) {
-            for (int j = i + 1; j < config.length; j++) {
+        // i to config.length(now replaced by end argument), and not decreasing it as well, we only
+        // test the combinations the we have not tested yet
+        // - I added the end argument to this function later so that this test can be limited to only
+        // a partial set of rows, so that I can use it to prune a permutation subtree from the tree of
+        // possible solutions
+        for (int i = 0; i < end - 1; i++) {
+            for (int j = i + 1; j < end; j++) {
+                int ai = config[i];
+                int bj = config[j];
+
+                if( ai < 0 || bj < 0 || ai > queens.length || bj > queens.length ) {
+                    throw new IllegalArgumentException();
+                }
+
                 int a = queens[config[i]];
                 int b = queens[config[j]];
                 int d = j - i;
@@ -98,16 +112,15 @@ public class Queens {
         return true;
     }
 
+    public boolean test(Integer[] config) {
+        return test(config, config.length);
+    }
+
     public List<Integer[]> allSolutions() {
         Permutations p = new Permutations(queens.length);
 
         ArrayList<Integer[]> solutions = new ArrayList<Integer[]>();
-        p.permute(0, c -> {
-                if (test(c)) {
-                    solutions.add(c);
-                }
-                return true;
-            });
+        p.permute(0, (r, c) -> test(r, c), c -> solutions.add(c));
 
         return solutions;
     }
