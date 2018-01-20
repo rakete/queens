@@ -36,7 +36,9 @@ public final class Main {
                   },
                   c -> {
                       numSolutions.getAndIncrement();
-                      q.print(c);
+                      if( n <= 8 ) {
+                          q.print(c);
+                      }
                   });
         System.out.format("numTests: %d\n", numTests.get());
         System.out.format("numSolutions: %d\n", numSolutions.get());
