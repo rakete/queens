@@ -39,9 +39,9 @@ public class Queens {
         for (int i = 0; i < config.length; i++) {
             for (int j = 0; j < config.length; j++) {
                 if (queens[config[i]] == 1 << j) {
-                    System.out.format(" 1");
+                    System.out.format(" Q");
                 } else {
-                    System.out.format(" 0");
+                    System.out.format(" .");
                 }
             }
             System.out.format("\n");
