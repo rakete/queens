@@ -15,8 +15,9 @@
  */
 package org.rastermann.compilerworks;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.HashMap;
@@ -27,73 +28,60 @@ public class TestQueens {
 
     @Test public void inputTest() {
         try {
-            Queens q = new Queens(-1);
-            fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
-        };
-
-        try {
-            Queens q = new Queens(0);
-            fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
-        };
-
-        try {
-            Queens q = new Queens(1);
-            fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
-        };
-
-        try {
-            Queens q = new Queens(4);
             Integer[] foo = new Integer[2];
-            q.test(foo, foo.length + 1);
+            Queens.testBoard(foo, foo.length + 1);
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         };
 
         try {
-            Queens q = new Queens(4);
             Integer[] foo = new Integer[2];
-            q.test(foo, 4);
+            Queens.testBoard(foo, 4);
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
+        };
+
+        try {
+            Integer[] foo = new Integer[2];
+            Queens.testRow(foo, foo.length + 1);
+            fail("Exception not thrown");
+        } catch (IllegalArgumentException e) {
+        };
+
+        try {
+            Integer[] foo = new Integer[2];
+            Queens.testRow(foo, 4);
+            fail("Exception not thrown");
+        } catch (IllegalArgumentException e) {
         };
     }
 
 
     @Test public void countingTest() {
-        Queens q = new Queens(4);
-        List<Integer[]> solutions = q.allSolutions();
+        List<Integer[]> solutions = Queens.allSolutions(4);
         assertEquals(solutions.size(), 2);
 
-        q = new Queens(5);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(5);
         assertEquals(solutions.size(), 10);
 
-        q = new Queens(6);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(6);
         assertEquals(solutions.size(), 4);
 
-        q = new Queens(7);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(7);
         assertEquals(solutions.size(), 40);
 
-        q = new Queens(8);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(8);
         assertEquals(solutions.size(), 92);
 
-        q = new Queens(9);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(9);
         assertEquals(solutions.size(), 352);
 
-        q = new Queens(10);
-        solutions = q.allSolutions();
+        solutions = Queens.allSolutions(10);
         assertEquals(solutions.size(), 724);
     }
 
     @Test public void distinctSolutionsTest() {
-        Integer[][] distinct_solutions = {
+        Integer[][] distinctSolutions = {
             {3, 6, 2, 7, 1, 4, 0, 5},
             {4, 1, 3, 6, 2, 7, 5, 0},
             {3, 1, 6, 2, 5, 7, 4, 0},
@@ -108,25 +96,24 @@ public class TestQueens {
             {5, 3, 6, 0, 7, 1, 4, 2}
         };
 
-        Map<String, Boolean> my_solutions = new HashMap<String, Boolean>();
+        Map<String, Boolean> mySolutions = new HashMap<String, Boolean>();
         Permutations p = new Permutations(8);
-        Queens q = new Queens(8);
         p.permute(0, c -> {
-                if( q.test(c) ) {
+                if (Queens.testBoard(c, c.length)) {
                     String s = Arrays.toString(c);
-                    assertEquals(my_solutions.get(s), null);
-                    my_solutions.put(s, true);
+                    assertEquals(mySolutions.get(s), null);
+                    mySolutions.put(s, true);
                 }
             });
 
-        for( int i = 0; i < distinct_solutions.length; i++ ) {
-            String s = Arrays.toString(distinct_solutions[i]);
-            assertEquals(my_solutions.get(s), true);
+        for (int i = 0; i < distinctSolutions.length; i++) {
+            String s = Arrays.toString(distinctSolutions[i]);
+            assertEquals(mySolutions.get(s), true);
         }
     }
 
     @Test public void wrongSolutionsTest() {
-        Integer[][] wrong_solutions = {
+        Integer[][] wrongSolutions = {
             {0, 1, 2, 3, 4, 5, 6, 7},
             {3, 6, 1, 7, 2, 4, 0, 5},
             {4, 1, 3, 5, 2, 7, 6, 0},
@@ -137,20 +124,19 @@ public class TestQueens {
             {7, 6, 5, 4, 3, 2, 1, 0}
         };
 
-        Map<String, Boolean> my_solutions = new HashMap<String, Boolean>();
+        Map<String, Boolean> mySolutions = new HashMap<String, Boolean>();
         Permutations p = new Permutations(8);
-        Queens q = new Queens(8);
         p.permute(0, c -> {
-                if( q.test(c) ) {
+                if (Queens.testBoard(c, c.length)) {
                     String s = Arrays.toString(c);
-                    assertEquals(my_solutions.get(s), null);
-                    my_solutions.put(s, true);
+                    assertEquals(mySolutions.get(s), null);
+                    mySolutions.put(s, true);
                 }
             });
 
-        for( int i = 0; i < wrong_solutions.length; i++ ) {
-            String s = Arrays.toString(wrong_solutions[i]);
-            assertEquals(my_solutions.get(s), null);
+        for (int i = 0; i < wrongSolutions.length; i++) {
+            String s = Arrays.toString(wrongSolutions[i]);
+            assertEquals(mySolutions.get(s), null);
         }
     }
 }

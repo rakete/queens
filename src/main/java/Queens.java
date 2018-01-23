@@ -17,28 +17,19 @@ package org.rastermann.compilerworks;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Queens {
-    private int[] queens;
-
-    public Queens(int n) {
-        if (n < 2) {
-            throw new IllegalArgumentException();
-        }
-
-        queens = new int[n];
-        for (int i = 0; i < n; i++) {
-            queens[i] = 1 << i;
-        }
+final class Queens {
+    private Queens() {
     }
 
-    public void print(Integer[] config) {
+    public static void print(Integer[] config) {
         System.out.format("Solution: ");
         Permutations.print(config);
 
         for (int i = 0; i < config.length; i++) {
             for (int j = 0; j < config.length; j++) {
-                if (queens[config[i]] == 1 << j) {
+                if (config[i] == j) {
                     System.out.format(" Q");
                 } else {
                     System.out.format(" .");
@@ -49,7 +40,7 @@ public class Queens {
         System.out.format("\n");
     }
 
-    public boolean test(Integer[] config, Integer end) {
+    public static boolean testBoard(Integer[] config, Integer end) {
         if (end > config.length) {
             throw new IllegalArgumentException();
         }
@@ -88,26 +79,54 @@ public class Queens {
         // we tested the 0 vs 1, we do not need to test 1 vs 0 as well, by only increasing j from
         // i to config.length(now replaced by end argument), and not decreasing it as well, we only
         // test the combinations the we have not tested yet
+
+        // changelog 20.01.2018:
         // - I added the end argument to this function later so that this test can be limited to only
         // a partial set of rows, so that I can use it to prune a permutation subtree from the tree of
         // possible solutions
-        for (int i = 0; i < end - 1; i++) {
-            for (int j = i + 1; j < end; j++) {
-                int ai = config[i];
-                int bj = config[j];
 
-                if (ai < 0 || bj < 0 || ai > queens.length || bj > queens.length) {
+        // changelog 23.01.2018:
+        // - the above is not entirely accurate anymore, I realised that using bitshifts is wasteful
+        // and I can just use a single integer to represent the column where a queen stands, then
+        // instead of using bitshifts, I can use addition and subtraction to test if two rows
+        // threaten each other
+        // - that means I can just use the integers in config directly, instead of having an extra
+        // array with bitshifted integers to represent the queens
+
+        if (config.length <= 4) {
+            System.out.print(Arrays.toString(config));
+            System.out.format(" ");
+            System.out.format("end:%d ", end);
+        }
+
+        for (int i = 0; i < end - 1; i++) {
+            if (config.length <= 4) {
+                System.out.format("i:%d ", i);
+            }
+            for (int j = i + 1; j < end; j++) {
+
+                int a = config[i];
+                int b = config[j];
+
+                if (a < 0 || b < 0 || a > config.length || b > config.length) {
                     throw new IllegalArgumentException();
                 }
 
-                int a = queens[config[i]];
-                int b = queens[config[j]];
                 int d = j - i;
 
-                if (b == (a >> d) || b == (a << d)) {
+                if (config.length <= 4) {
+                    System.out.format("j:%d a:%d b:%d, ", j, a, b);
+                }
+                if (b == (a - d) || b == (a + d)) {
+                    if (config.length <= 4) {
+                        System.out.format("false\n");
+                    }
                     return false;
                 }
             }
+        }
+        if (config.length <= 4) {
+            System.out.format("true\n");
         }
         return true;
     }
@@ -159,11 +178,11 @@ public class Queens {
         return true;
     }
 
-    public List<Integer[]> allSolutions() {
-        Permutations p = new Permutations(queens.length);
+    public static List<Integer[]> allSolutions(int n) {
+        Permutations p = new Permutations(n);
 
         ArrayList<Integer[]> solutions = new ArrayList<Integer[]>();
-        p.permute(0, (r, c) -> test(r, c), c -> solutions.add(c));
+        p.permute(0, (r, c) -> testRow(r, c), c -> solutions.add(c));
 
         return solutions;
     }

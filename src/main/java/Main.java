@@ -23,7 +23,6 @@ public final class Main {
     public static void main(String[] args) {
         int n = 8;
 
-        Queens q = new Queens(n);
         Permutations p = new Permutations(n);
         System.out.format("numPermutation: %d\n", p.numPermutations);
 

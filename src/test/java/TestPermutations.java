@@ -15,8 +15,9 @@
  */
 package org.rastermann.compilerworks;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,28 +31,28 @@ public class TestPermutations {
         try {
             Permutations.factorial(-1);
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         };
 
         try {
             Permutations wrong = new Permutations(-1);
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         };
 
         try {
             Permutations p = new Permutations(4);
-            p.permute(-1, c -> {return;});
+            p.permute(-1, c -> { return; });
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         };
 
         try {
             int n = 4;
             Permutations p = new Permutations(n);
-            p.permute(n + 1, c -> {return;});
+            p.permute(n + 1, c -> { return; });
             fail("Exception not thrown");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
         };
     }
 
@@ -69,9 +70,9 @@ public class TestPermutations {
         Permutations p = new Permutations(n);
         assertEquals(p.numPermutations, Permutations.factorial(n));
 
-        AtomicInteger permutation_counter = new AtomicInteger(0);
-        p.permute(0, c -> {permutation_counter.getAndIncrement();});
-        assertEquals(permutation_counter.get(), p.numPermutations);
+        AtomicInteger permutationCounter = new AtomicInteger(0);
+        p.permute(0, c -> {permutationCounter.getAndIncrement();});
+        assertEquals(permutationCounter.get(), p.numPermutations);
 
         Map<String, Boolean> collection = new HashMap<String, Boolean>();
         p.permute(0, c -> {
@@ -79,8 +80,8 @@ public class TestPermutations {
                 assertEquals(collection.get(s), null);
             });
 
-        p.permute(0, c -> {return;});
-        p.permute(0, c -> {return;});
+        p.permute(0, c -> { return; });
+        p.permute(0, c -> { return; });
         assertEquals(p.numPermutations, Permutations.factorial(n));
     }
 }
