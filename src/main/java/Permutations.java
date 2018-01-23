@@ -88,8 +88,8 @@ public class Permutations {
 
             // - this is the center piece of the algorithm where we decide if we collect a 'finished' permutation,
             // or if we continue or stop recuring
-            if (i + 1 >= permutation.length - 1) {
-                // - a permutation is 'finished' when i + 1 is the last indexable position in the permutation array,
+            if (i >= permutation.length - 1) {
+                // - a permutation is 'finished' when i is the last indexable position in the permutation array,
                 // then we test.apply to decide if the permutation should be collected with collect.accept
                 if (test.apply(permutation, permutation.length)) {
                     collect.accept(permutation);

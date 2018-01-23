@@ -32,12 +32,12 @@ public final class Main {
         p.permute(0,
                   (c, r) -> {
                       numTests.getAndIncrement();
-                      return q.test(c, r);
+                      return Queens.testRow(c, r);
                   },
                   c -> {
                       numSolutions.getAndIncrement();
-                      if( n <= 8 ) {
-                          q.print(c);
+                      if (n <= 8) {
+                          Queens.print(c);
                       }
                   });
         System.out.format("numTests: %d\n", numTests.get());

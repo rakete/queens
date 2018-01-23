@@ -112,8 +112,51 @@ public class Queens {
         return true;
     }
 
-    public boolean test(Integer[] config) {
-        return test(config, config.length);
+    public static boolean testRow(Integer[] config, Integer row) {
+        if (row > config.length) {
+            throw new IllegalArgumentException();
+        }
+
+        // - the above testBoard function always tests the whole board for threatening rows, this is not optimal
+        // when using the testBoard function to test partial permutations, because we end up testing row combinations
+        // that we already tested again, when with go further down a tree branch
+        // - example: when testing [2, 0, 3, 1] we first test 2 vs 0, if these do not threaten each other we recur
+        // further and then the next call to testBoard would test 2 vs 0, then 2 vs 3 and 0 vs 3, unecessarily
+        // repeating the first 2 vs 0 test
+        // - what needs to be done is to only test 2 vs 3 and 0 vs 3, that means when we test a row, we test
+        // only this row against all preceding rows, and this is what this function does
+
+        if (config.length <= 4) {
+            System.out.print(Arrays.toString(config));
+            System.out.format(" ");
+            System.out.format("row:%d ", row);
+        }
+
+        int b = config[row - 1];
+        for (int i = 0; i < row - 1; i++) {
+            int a = config[i];
+
+            if (a < 0 || b < 0 || a > config.length || b > config.length) {
+                throw new IllegalArgumentException();
+            }
+
+            int d = row - 1 - i;
+
+            if (config.length <= 4) {
+                System.out.format("a:%d b:%d d:%d, ", a, b, d);
+            }
+            if (b == (a - d) || b == (a + d)) {
+                if (config.length <= 4) {
+                    System.out.format("false\n");
+                }
+                return false;
+            }
+        }
+
+        if (config.length <= 4) {
+            System.out.format("true\n");
+        }
+        return true;
     }
 
     public List<Integer[]> allSolutions() {
