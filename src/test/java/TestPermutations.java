@@ -78,6 +78,7 @@ public class TestPermutations {
         p.permute(0, c -> {
                 String s = Arrays.toString(c);
                 assertEquals(collection.get(s), null);
+                collection.put(s, true);
             });
 
         p.permute(0, c -> { return; });
